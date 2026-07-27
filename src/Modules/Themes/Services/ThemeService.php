@@ -389,7 +389,7 @@ class ThemeService
         $count = 0;
         $manifests = [];
 
-        foreach ($this->themeDiscoveryRoots() as $root) {
+        foreach ($this->themeRoots() as $root) {
             foreach (glob($root.'/*/theme.json') ?: [] as $file) {
                 $meta = json_decode(file_get_contents($file), true);
 
@@ -434,9 +434,7 @@ class ThemeService
         if (! Theme::where('is_active', true)->exists()) {
             // Boutique is the polished first-install experience. Existing active
             // themes are never changed during a resync or package upgrade.
-            $fallback = Theme::where('slug', 'boutique')->first()
-                ?? Theme::where('slug', 'default')->first()
-                ?? Theme::orderBy('id')->first();
+            $fallback = Theme::where('slug', 'boutique')->first() ?? Theme::orderBy('id')->first();
             $fallback?->update(['is_active' => true]);
         }
 
@@ -516,21 +514,7 @@ class ThemeService
         return array_values(array_unique(array_filter([
             $hostRoot,
             $packageRoot.'/themes',
-            $packageRoot.'/resources/vendor/Themes',
         ], 'is_dir')));
-    }
-
-    /** @return array<int, string> roots whose manifests become selectable themes */
-    protected function themeDiscoveryRoots(): array
-    {
-        $roots = $this->themeRoots();
-
-        if (! config('shopcrafty.include_vendor_themes', false)) {
-            $vendorRoot = dirname(__DIR__, 4).'/resources/vendor/Themes';
-            $roots = array_values(array_filter($roots, static fn (string $root): bool => $root !== $vendorRoot));
-        }
-
-        return $roots;
     }
 
     protected function validSlug(string $slug): bool

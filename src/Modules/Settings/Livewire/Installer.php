@@ -183,12 +183,12 @@ class Installer extends Component
         $settings = app(Settings::class);
         $settings->setMany(['general.store_name' => $this->storeName]);
 
-        // Register bundled themes + activate a default so the storefront renders.
+        // Register bundled themes + activate Boutique so the storefront renders.
         $themes = app(ThemeService::class);
         $themes->syncFromDisk();
 
-        if (! Theme::where('is_active', true)->exists() && ($default = Theme::where('slug', 'default')->first())) {
-            $themes->activate($default);
+        if (! Theme::where('is_active', true)->exists() && ($boutique = Theme::where('slug', 'boutique')->first())) {
+            $themes->activate($boutique);
         }
 
         if (ShippingZone::count() === 0) {

@@ -8,9 +8,6 @@ return [
     // Set this to a host application directory to install custom themes.
     // When null, the bundled package themes are used automatically.
     'themes_path' => null,
-    // Vendor themes are bundled as internal fallbacks and are hidden from the
-    // selectable theme catalog unless explicitly enabled by the host app.
-    'include_vendor_themes' => false,
     'available_locales' => [
         'en' => 'English', 'es' => 'Español', 'fr' => 'Français',
         'pt' => 'Português', 'de' => 'Deutsch', 'ar' => 'العربية',

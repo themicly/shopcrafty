@@ -29,11 +29,11 @@ class ThemesServiceProvider extends ModuleServiceProvider
         $theme = $this->app->make(ThemeService::class);
         $slug = $theme->activeSlug();
 
-        // Storefront views render through `theme::` with fallback to the default theme,
+        // Storefront views render through `theme::` with fallback to Boutique,
         // so an active theme can override any view (marketplace-ready).
         $paths = array_values(array_unique(array_filter([
             $theme->themePath($slug).'/views',
-            $theme->themePath('default').'/views',
+            $theme->themePath('boutique').'/views',
         ], 'is_dir')));
 
         if (! empty($paths)) {
