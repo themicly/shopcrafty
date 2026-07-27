@@ -91,8 +91,8 @@ final class InstallCommand extends Command
     {
         $cssPath = resource_path('css/app.css');
         $jsPath = resource_path('js/app.js');
-        $cssImport = '@import "../../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";';
-        $jsImport = 'import "../../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";';
+        $cssImport = '@import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";';
+        $jsImport = 'import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";';
 
         if (is_file($cssPath)) {
             $css = file_get_contents($cssPath) ?: '';

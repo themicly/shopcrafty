@@ -33,10 +33,10 @@ with the core package.
 - A host Vite build that imports the package entries:
 
     /* resources/css/app.css */
-    @import "../../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";
+    @import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";
 
     // resources/js/app.js
-    import "../../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";
+    import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";
 
 The relative paths may differ when the host uses a different Composer vendor
 layout; resolve them to the installed package resources/assets directory.
