@@ -1,0 +1,6 @@
+{
+    "name": "Host Marketplace",
+    "version": "1.0.0",
+    "author": "Application",
+    "description": "Application-provided override for the marketplace theme."
+}

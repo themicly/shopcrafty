@@ -1,0 +1,19 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+    tmpDir: .phpstan-cache
+    viewDirectories:
+        - resources/views
+        - src/Modules/CMS/Resources/views
+        - src/Modules/Catalog/Resources/views
+        - src/Modules/Customers/Resources/views
+        - src/Modules/Marketing/Resources/views
+        - src/Modules/Notifications/Resources/views
+        - src/Modules/Orders/Resources/views
+        - src/Modules/Reports/Resources/views
+        - src/Modules/Settings/Resources/views
+        - src/Modules/Themes/Resources/views

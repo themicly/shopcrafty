@@ -1,0 +1,39 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "themicly/shopcrafty",
+    "description": "Open-source Laravel e-commerce core for Shopcrafty.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://themicly.com/shopcrafty",
+    "keywords": ["laravel", "ecommerce", "shopcrafty"],
+    "authors": [
+        {
+            "name": "Themicly",
+            "homepage": "https://themicly.com"
+        },
+        {
+            "name": "Md. Rakibul Islam",
+            "homepage": "https://github.com/rakibdevs"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^13.0",
+        "intervention/image": "^4.1",
+        "livewire/livewire": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^12.0",
+        "laravel/pint": "^1.0",
+        "larastan/larastan": "^3.8"
+    },
+    "autoload": {
+        "psr-4": {"Themicly\\Shopcrafty\\": "src/"},
+        "files": ["src/Core/Support/helpers.php"]
+    },
+    "autoload-dev": {"psr-4": {"Themicly\\Shopcrafty\\Tests\\": "tests/"}},
+    "extra": {"laravel": {"providers": ["Themicly\\Shopcrafty\\ShopcraftyServiceProvider"]}},
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
