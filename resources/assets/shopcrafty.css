@@ -1,0 +1,6 @@
+/*
+ * Host Vite entry for Shopcrafty. The package's compiled CSS is imported into
+ * the host application's single Vite graph; it is never published over the
+ * host public/build directory.
+ */
+@import '../dist/assets/app-COp0Qnk0.css';
