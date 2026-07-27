@@ -91,4 +91,14 @@ final class PackageTest extends TestCase
         $this->assertSame(1, Theme::query()->where('slug', 'market')->count());
         $this->assertTrue(Theme::query()->where('is_active', true)->exists());
     }
+
+    public function test_vendor_themes_are_hidden_from_selectable_catalog_by_default(): void
+    {
+        $this->artisan('migrate');
+
+        app(ThemeService::class)->syncFromDisk();
+
+        $this->assertTrue(Theme::whereIn('slug', ThemeService::OPEN_SOURCE_THEMES)->count() >= 2);
+        $this->assertFalse(Theme::whereIn('slug', ['default', 'fresh', 'haven', 'studio'])->exists());
+    }
 }
