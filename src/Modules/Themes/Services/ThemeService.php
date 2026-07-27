@@ -389,7 +389,7 @@ class ThemeService
         $count = 0;
         $manifests = [];
 
-        foreach ($this->themeRoots() as $root) {
+        foreach ($this->themeDiscoveryRoots() as $root) {
             foreach (glob($root.'/*/theme.json') ?: [] as $file) {
                 $meta = json_decode(file_get_contents($file), true);
 
@@ -514,6 +514,19 @@ class ThemeService
             $packageRoot.'/themes',
             $packageRoot.'/resources/vendor/Themes',
         ], 'is_dir')));
+    }
+
+    /** @return array<int, string> roots whose manifests become selectable themes */
+    protected function themeDiscoveryRoots(): array
+    {
+        $roots = $this->themeRoots();
+
+        if (! config('shopcrafty.include_vendor_themes', false)) {
+            $vendorRoot = dirname(__DIR__, 4).'/resources/vendor/Themes';
+            $roots = array_values(array_filter($roots, static fn (string $root): bool => $root !== $vendorRoot));
+        }
+
+        return $roots;
     }
 
     protected function validSlug(string $slug): bool
