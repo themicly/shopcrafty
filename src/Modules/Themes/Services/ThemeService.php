@@ -432,7 +432,11 @@ class ThemeService
 
         // Never leave the storefront without an active theme (THM-05).
         if (! Theme::where('is_active', true)->exists()) {
-            $fallback = Theme::where('slug', 'default')->first() ?? Theme::orderBy('id')->first();
+            // Boutique is the polished first-install experience. Existing active
+            // themes are never changed during a resync or package upgrade.
+            $fallback = Theme::where('slug', 'boutique')->first()
+                ?? Theme::where('slug', 'default')->first()
+                ?? Theme::orderBy('id')->first();
             $fallback?->update(['is_active' => true]);
         }
 

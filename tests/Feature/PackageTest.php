@@ -100,5 +100,10 @@ final class PackageTest extends TestCase
 
         $this->assertTrue(Theme::whereIn('slug', ThemeService::OPEN_SOURCE_THEMES)->count() >= 2);
         $this->assertFalse(Theme::whereIn('slug', ['default', 'fresh', 'haven', 'studio'])->exists());
+        $this->assertSame('boutique', Theme::where('is_active', true)->value('slug'));
+        $this->assertSame(
+            ThemeService::HOMEPAGE_LAYOUTS['boutique'],
+            Theme::where('slug', 'boutique')->firstOrFail()->sections()->where('page', 'home')->orderBy('position')->pluck('section_key')->all(),
+        );
     }
 }
