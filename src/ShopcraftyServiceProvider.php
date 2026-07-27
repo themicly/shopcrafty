@@ -25,6 +25,7 @@ final class ShopcraftyServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/shopcrafty.php', 'shopcrafty');
         $this->mergeConfigFrom(__DIR__.'/../config/navigation.php', 'navigation');
         $this->mergeConfigFrom(__DIR__.'/../config/presets.php', 'presets');
+        $this->mergeConfigFrom(__DIR__.'/../config/demo-packs.php', 'demo-packs');
         config([
             'auth.guards.customer' => ['driver' => 'session', 'provider' => 'customers'],
             'auth.providers.customers' => ['driver' => 'eloquent', 'model' => Customer::class],

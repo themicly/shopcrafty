@@ -13,7 +13,7 @@ final class PackageTest extends TestCase
         $this->assertTrue(app()->bound(AddonRegistry::class));
         $this->assertArrayNotHasKey('currency', config('shopcrafty'));
         $this->assertArrayNotHasKey('default_demo_pack', config('shopcrafty'));
-        $this->assertNull(config('demo-packs'));
+        $this->assertSame(['default', 'boutique', 'market'], array_keys(config('demo-packs')));
     }
 
     public function test_storefront_route_is_registered(): void
