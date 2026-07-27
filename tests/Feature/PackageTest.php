@@ -98,8 +98,8 @@ final class PackageTest extends TestCase
 
         app(ThemeService::class)->syncFromDisk();
 
-        $this->assertTrue(Theme::whereIn('slug', ThemeService::OPEN_SOURCE_THEMES)->count() >= 2);
-        $this->assertSame(['boutique', 'market'], Theme::orderBy('slug')->pluck('slug')->all());
+        $this->assertSame(3, Theme::whereIn('slug', ThemeService::OPEN_SOURCE_THEMES)->count());
+        $this->assertSame(['boutique', 'default', 'market'], Theme::orderBy('slug')->pluck('slug')->all());
         $this->assertSame('boutique', Theme::where('is_active', true)->value('slug'));
         $this->assertSame(
             ThemeService::HOMEPAGE_LAYOUTS['boutique'],

@@ -10,7 +10,7 @@ use Themicly\Shopcrafty\Modules\Themes\Models\ThemeSection;
 class ThemeService
 {
     /** Themes shipped directly with the core package. */
-    public const OPEN_SOURCE_THEMES = ['market', 'boutique'];
+    public const OPEN_SOURCE_THEMES = ['default', 'market', 'boutique'];
 
     /**
      * Section catalog for the homepage builder. Each maps to a
