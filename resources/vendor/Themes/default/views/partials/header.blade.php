@@ -70,8 +70,12 @@
             {{-- Secondary actions collapse into the mobile drawer so the phone
                  masthead keeps only the logo + cart (and search). --}}
             <div class="hidden items-center gap-1 md:flex">
-            @php $wishlistCount = app(\Themicly\Shopcrafty\Modules\Customers\Services\WishlistService::class)->count(); @endphp
-            @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('wishlist') && settings('catalog.wishlist_enabled', true))
+            @php
+                $headerAddons = app('Themicly\\Shopcrafty\\Core\\Module\\AddonRegistry');
+                $wishlistOn = $headerAddons->installed('wishlist') && settings('catalog.wishlist_enabled', true);
+                $wishlistCount = $wishlistOn ? app('Themicly\\Shopcrafty\\Modules\\Customers\\Services\\WishlistService')->count() : 0;
+            @endphp
+            @if ($wishlistOn)
             <a href="{{ route('storefront.wishlist') }}"
                 x-data="{ n: {{ $wishlistCount }} }"
                 x-on:wishlist-changed.window="n = $event.detail.count"
@@ -80,8 +84,11 @@
                 <span x-show="n > 0" x-text="n" x-cloak class="stt-aurora-count"></span>
             </a>
             @endif
-            @php $compareCount = app(\Themicly\Shopcrafty\Modules\Catalog\Services\CompareService::class)->count(); @endphp
-            @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('compare') && settings('catalog.compare_enabled', true))
+            @php
+                $compareOn = $headerAddons->installed('compare') && settings('catalog.compare_enabled', true);
+                $compareCount = $compareOn ? app('Themicly\\Shopcrafty\\Modules\\Catalog\\Services\\CompareService')->count() : 0;
+            @endphp
+            @if ($compareOn)
             <a href="{{ route('storefront.compare') }}"
                 x-data="{ n: {{ $compareCount }} }"
                 x-on:compare-changed.window="n = $event.detail.count"
