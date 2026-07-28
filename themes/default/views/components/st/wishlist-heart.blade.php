@@ -5,7 +5,7 @@
 
 @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('wishlist') && settings('catalog.wishlist_enabled', true))
 
-@php $active = app(\Themicly\Shopcrafty\Modules\Customers\Services\WishlistService::class)->has((int) $productId); @endphp
+@php $wishlistService = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->all()['wishlist']['service'] ?? null; $active = $wishlistService ? app($wishlistService)->has((int) $productId) : false; @endphp
 
 <button
     type="button"

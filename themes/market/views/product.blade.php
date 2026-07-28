@@ -308,7 +308,7 @@
     {{-- Reviews --}}
     @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('reviews') && settings('catalog.reviews_enabled', true))
         <div id="reviews">
-            <livewire:catalog.product-reviews :product-id="$product->id" />
+            <livewire:reviews.product-reviews :product-id="$product->id" />
         </div>
     @endif
 

@@ -612,7 +612,7 @@
         </script>
     @endif
 
-    @include('theme::partials.cookie-consent')
+    @includeWhen(app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->installed('cookie-consent'), 'cookieconsent::cookie-consent')
 
     @include('theme::partials.toasts')
 

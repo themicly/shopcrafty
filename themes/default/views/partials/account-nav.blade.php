@@ -1,8 +1,9 @@
 @php
+    $addons = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class);
     $links = [
         ['route' => 'storefront.account.index', 'label' => __('storefront.orders')],
         ['route' => 'storefront.account.downloads', 'label' => __('storefront.downloads')],
-        ['route' => 'storefront.wishlist', 'label' => __('storefront.wishlist')],
+        ...($addons->installed('wishlist') ? [['route' => 'storefront.wishlist', 'label' => __('storefront.wishlist')]] : []),
         ['route' => 'storefront.account.addresses', 'label' => __('storefront.addresses')],
         ['route' => 'storefront.account.profile', 'label' => __('storefront.profile')],
         ['route' => 'storefront.support', 'label' => __('storefront.help_support')],

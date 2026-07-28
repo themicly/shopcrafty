@@ -38,6 +38,44 @@ npm install
 npm run build
 ```
 
+Optional storefront add-ons are separate packages:
+
+```bash
+composer require themicly/shopcrafty-compare themicly/shopcrafty-reviews
+php artisan migrate
+```
+
+The compare add-on is session-backed. Reviews add a moderated review form and
+an authenticated admin moderation page at `/admin/catalog/reviews`.
+
+Cookie consent and popular search are also optional packages:
+
+```bash
+composer require themicly/shopcrafty-cookie-consent themicly/shopcrafty-popular-search
+php artisan migrate
+```
+
+Wishlist is optional as well:
+
+```bash
+composer require themicly/shopcrafty-wishlist
+php artisan migrate
+```
+
+### Add-on reference
+
+| Package | Purpose | Main routes / views |
+| --- | --- | --- |
+| `themicly/shopcrafty-compare` | Session-backed product comparison, capped at four products | `/compare`, `compare::`, `compare.compare-page` |
+| `themicly/shopcrafty-reviews` | Product reviews, verified purchases, and moderation | `/admin/catalog/reviews`, `reviews::`, `reviews.product-reviews` |
+| `themicly/shopcrafty-cookie-consent` | Cookie banner and privacy controls | `/admin/settings/privacy`, `cookieconsent::` |
+| `themicly/shopcrafty-popular-search` | Search analytics and popular search terms | `/admin/reports/search-terms`, `popularsearch::` |
+| `themicly/shopcrafty-wishlist` | Guest and customer saved-product lists | `/wishlist`, `wishlist::`, `wishlist.wishlist-page` |
+
+All add-ons are Laravel auto-discovered and register their capabilities through
+Shopcrafty’s `AddonRegistry`. Core themes check registry availability before
+rendering an add-on view, route, component, or service.
+
 Themes, views, and admin resources are loaded directly from the package and are
 never published into the host application.
 

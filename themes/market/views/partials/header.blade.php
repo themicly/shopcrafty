@@ -4,8 +4,11 @@
     $logo = settings('general.logo');
     $headerMenu = \Themicly\Shopcrafty\Modules\CMS\Models\Menu::where('location', 'header')->first()?->items()->get() ?? collect();
     $addons = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class);
-    $wishlistCount = $addons->installed('wishlist') ? app(\Themicly\Shopcrafty\Modules\Customers\Services\WishlistService::class)->count() : 0;
-    $compareCount = $addons->installed('compare') ? app(\Themicly\Shopcrafty\Modules\Catalog\Services\CompareService::class)->count() : 0;
+    $wishlistOn = $addons->installed('wishlist') && settings('catalog.wishlist_enabled', true);
+    $wishlistService = $wishlistOn ? ($addons->all()['wishlist']['service'] ?? null) : null;
+    $wishlistCount = $wishlistService ? app($wishlistService)->count() : 0;
+    $compareService = $addons->all()['compare']['service'] ?? null;
+    $compareCount = $compareService ? app($compareService)->count() : 0;
     $popularSearchTerms = array_slice((array) settings('search.popular_terms', []), 0, 10);
 @endphp
 
@@ -91,7 +94,7 @@
             {{-- Secondary actions collapse into the mobile drawer so the phone
                  masthead keeps only the logo + cart (search has its own row). --}}
             <div class="hidden items-center gap-1 md:flex">
-            @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('wishlist') && settings('catalog.wishlist_enabled', true))
+            @if ($wishlistOn)
             <a href="{{ route('storefront.wishlist') }}" x-data="{ n: {{ $wishlistCount }} }" x-on:wishlist-changed.window="n = $event.detail.count"
                 class="relative hidden h-10 w-10 place-items-center rounded-full hover:bg-black/5 sm:grid" aria-label="{{ __('storefront.wishlist') }}">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="h-5 w-5" style="color: var(--st-ink)"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>

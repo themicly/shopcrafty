@@ -73,7 +73,7 @@
             @php
                 $headerAddons = app('Themicly\\Shopcrafty\\Core\\Module\\AddonRegistry');
                 $wishlistOn = $headerAddons->installed('wishlist') && settings('catalog.wishlist_enabled', true);
-                $wishlistCount = $wishlistOn ? app('Themicly\\Shopcrafty\\Modules\\Customers\\Services\\WishlistService')->count() : 0;
+                $wishlistCount = $wishlistOn ? app($headerAddons->all()['wishlist']['service'])->count() : 0;
             @endphp
             @if ($wishlistOn)
             <a href="{{ route('storefront.wishlist') }}"
@@ -86,7 +86,7 @@
             @endif
             @php
                 $compareOn = $headerAddons->installed('compare') && settings('catalog.compare_enabled', true);
-                $compareCount = $compareOn ? app('Themicly\\Shopcrafty\\Modules\\Catalog\\Services\\CompareService')->count() : 0;
+                $compareCount = $compareOn ? app($headerAddons->all()['compare']['service'])->count() : 0;
             @endphp
             @if ($compareOn)
             <a href="{{ route('storefront.compare') }}"

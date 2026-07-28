@@ -6,7 +6,6 @@ use Themicly\Shopcrafty\Modules\Catalog\Services\CategoryTreeService;
 use Themicly\Shopcrafty\Modules\Catalog\Services\ProductCsv;
 use Themicly\Shopcrafty\Modules\Catalog\Services\ProductFinderService;
 use Themicly\Shopcrafty\Modules\Catalog\Services\RecentlyViewed;
-use Themicly\Shopcrafty\Modules\Catalog\Services\SearchTermRecorder;
 use Themicly\Shopcrafty\Tests\TestCase;
 
 final class CatalogServicesTest extends TestCase
@@ -45,18 +44,6 @@ final class CatalogServicesTest extends TestCase
         $this->assertCount(8, $service->ids());
         $this->assertSame(5, $service->ids()[0]);
         $this->assertCount(8, array_keys(array_flip($service->ids())));
-    }
-
-    public function test_search_terms_are_normalized_and_counted_once_per_session(): void
-    {
-        $this->migrateCore();
-        $service = app(SearchTermRecorder::class);
-
-        $this->assertSame('red shoes', $service->normalize("  RED   shoes \n"));
-        $service->record(' RED   shoes ');
-        $service->record('red shoes');
-
-        $this->assertDatabaseHas('catalog_search_terms', ['term' => 'red shoes', 'count' => 1]);
     }
 
     public function test_product_csv_imports_creates_categories_and_exports_safe_values(): void

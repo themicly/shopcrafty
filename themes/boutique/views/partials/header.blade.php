@@ -5,7 +5,9 @@
     $popularSearchTerms = array_slice((array) settings('search.popular_terms', []), 0, 10);
     $headerMenu = \Themicly\Shopcrafty\Modules\CMS\Models\Menu::where('location', 'header')->first()?->items()->get() ?? collect();
     $addons = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class);
-    $wishlistCount = $addons->installed('wishlist') ? app(\Themicly\Shopcrafty\Modules\Customers\Services\WishlistService::class)->count() : 0;
+    $wishlistOn = $addons->installed('wishlist') && settings('catalog.wishlist_enabled', true);
+    $wishlistService = $wishlistOn ? ($addons->all()['wishlist']['service'] ?? null) : null;
+    $wishlistCount = $wishlistService ? app($wishlistService)->count() : 0;
     // Second-row nav: admin menu when present, otherwise the top categories.
     $navItems = $headerMenu->isNotEmpty()
         ? $headerMenu->map(fn ($i) => ['label' => $i->label, 'url' => $i->url])
@@ -59,14 +61,14 @@
             <button @click="search = true" class="stt-boutique-iconbtn" aria-label="{{ __('storefront.search') }}">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
             </button>
-            @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('wishlist') && settings('catalog.wishlist_enabled', true))
+            @if ($wishlistOn)
             <a href="{{ route('storefront.wishlist') }}" x-data="{ n: {{ $wishlistCount }} }" x-on:wishlist-changed.window="n = $event.detail.count"
                 class="stt-boutique-iconbtn relative hidden lg:grid" aria-label="{{ __('storefront.wishlist') }}">
                 <svg fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
                 <span x-show="n > 0" x-text="n" x-cloak class="absolute top-0.5 grid h-4 min-w-4 place-items-center px-1 text-[10px] font-bold" style="right: 0; background: var(--st-accent); color: #fff; border-radius: 999px"></span>
             </a>
             @endif
-            @php $compareCount = $addons->installed('compare') ? app(\Themicly\Shopcrafty\Modules\Catalog\Services\CompareService::class)->count() : 0; @endphp
+            @php $compareService = $addons->all()['compare']['service'] ?? null; $compareCount = $compareService ? app($compareService)->count() : 0; @endphp
             @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('compare') && settings('catalog.compare_enabled', true))
             <a href="{{ route('storefront.compare') }}" x-data="{ n: {{ $compareCount }} }" x-on:compare-changed.window="n = $event.detail.count"
                 class="stt-boutique-iconbtn relative hidden lg:grid" aria-label="{{ __('storefront.compare') }}">

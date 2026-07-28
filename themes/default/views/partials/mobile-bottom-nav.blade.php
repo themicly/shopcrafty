@@ -9,7 +9,8 @@
     $rightX = 400 - $r;
     $bottomY = 64 - $r;
     $wishlistOn = app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('wishlist') && settings('catalog.wishlist_enabled', true);
-    $wishlistCount = $wishlistOn ? app(\Themicly\Shopcrafty\Modules\Customers\Services\WishlistService::class)->count() : 0;
+    $wishlistService = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->all()['wishlist']['service'] ?? null;
+    $wishlistCount = $wishlistOn && $wishlistService ? app($wishlistService)->count() : 0;
     $cartCount = app(\Themicly\Shopcrafty\Modules\Orders\Services\CartService::class)->count();
     $isHome = request()->is('/');
     $isShop = request()->is('shop', 'shop/*', 'category/*', 'product/*');

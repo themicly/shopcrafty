@@ -17,9 +17,6 @@ Route::get('/', fn () => View::make('admin.dashboard'))->name('dashboard');
 // Reports overview → /admin/reports (financials are owner-only, RPT-08)
 Route::view('/reports', 'admin.reports.index')->middleware('can:manage-config')->name('reports.index');
 
-// Storefront search-term analytics → /admin/reports/search-terms
-Route::view('/reports/search-terms', 'admin.reports.search-terms')->middleware('can:manage-config')->name('reports.search-terms');
-
 // Focused reports — split out of the overview so each stays fast and readable
 // (financials are owner-only, same as the overview, RPT-08).
 Route::middleware('can:manage-config')->prefix('reports')->name('reports.')->group(function () {

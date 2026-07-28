@@ -10,7 +10,7 @@ use Themicly\Shopcrafty\Modules\Catalog\Models\Attribute;
 use Themicly\Shopcrafty\Modules\Catalog\Models\Category;
 use Themicly\Shopcrafty\Modules\Catalog\Models\Product;
 use Themicly\Shopcrafty\Modules\Catalog\Services\RecentlyViewed;
-use Themicly\Shopcrafty\Modules\Catalog\Services\SearchTermRecorder;
+use Themicly\Shopcrafty\Core\Module\AddonRegistry;
 use Themicly\Shopcrafty\Modules\Catalog\Support\ProductFiltering;
 
 class StorefrontController
@@ -37,7 +37,7 @@ class StorefrontController
 
         // Popularity analytics. Deduped per session; must never break the
         // results page.
-        rescue(fn () => app(SearchTermRecorder::class)->record($q), report: false);
+        $this->recordSearchTerm($q);
 
         return View::make('theme::search', ['q' => $q]);
     }
@@ -58,7 +58,7 @@ class StorefrontController
             return response()->json([]);
         }
 
-        rescue(fn () => app(SearchTermRecorder::class)->record($q), report: false);
+        $this->recordSearchTerm($q);
 
         $products = Product::active()->where('name', 'like', '%'.$this->escapeLike($q).'%')->with('media')->limit(6)->get();
 
@@ -68,6 +68,15 @@ class StorefrontController
             'price' => format_money($p->price),
             'image' => $p->media->first()?->path,
         ])->all());
+    }
+
+    protected function recordSearchTerm(string $term): void
+    {
+        $recorder = app(AddonRegistry::class)->all()['popular-search']['recorder'] ?? null;
+
+        if ($recorder) {
+            rescue(fn () => app($recorder)->record($term), report: false);
+        }
     }
 
     public function show(string $slug)

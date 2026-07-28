@@ -5,7 +5,7 @@
 
 @if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('compare') && settings('catalog.compare_enabled', true))
 
-@php $active = app(\Themicly\Shopcrafty\Modules\Catalog\Services\CompareService::class)->has((int) $productId); @endphp
+@php $compareService = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->all()['compare']['service'] ?? null; $active = $compareService ? app($compareService)->has((int) $productId) : false; @endphp
 
 <button
     type="button"

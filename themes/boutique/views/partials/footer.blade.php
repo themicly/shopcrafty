@@ -75,9 +75,9 @@
                     @foreach ($tree as $category)
                         <li><a href="{{ url('/category/' . $category->slug) }}" class="hover:underline underline-offset-4" style="color: var(--st-ink-soft)">{{ $category->name }}</a></li>
                     @endforeach
-                    <li>@if (app('Themicly\Shopcrafty\Core\Module\AddonRegistry')->installed('wishlist') && settings('catalog.wishlist_enabled', true))
-@if (app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->installed('wishlist'))<a href="{{ route('storefront.wishlist') }}" class="hover:underline underline-offset-4" style="color: var(--st-ink-soft)">{{ $theme['footer_wishlist_label'] ?? 'Wishlist' }}</a>@endif
-@endif</li>
+                    @if (app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->installed('wishlist') && settings('catalog.wishlist_enabled', true))
+                        <li><a href="{{ route('storefront.wishlist') }}" class="hover:underline underline-offset-4" style="color: var(--st-ink-soft)">{{ $theme['footer_wishlist_label'] ?? 'Wishlist' }}</a></li>
+                    @endif
                 </ul>
             </div>
 

@@ -1,13 +1,14 @@
 @php
     // Prefer real, approved, high-rated reviews so the social proof is genuine.
     // Only fall back to configured/placeholder items when there are none yet.
-    $realReviews = \Themicly\Shopcrafty\Modules\Catalog\Models\ProductReview::query()
+    $reviewModel = app('Themicly\\Shopcrafty\\Core\\Module\\AddonRegistry')->all()['reviews']['review_model'] ?? null;
+    $realReviews = $reviewModel ? $reviewModel::query()
         ->where('status', 'approved')
         ->where('rating', '>=', 4)
         ->whereNotNull('body')
         ->latest()
         ->limit(6)
-        ->get();
+        ->get() : collect();
 
     if ($realReviews->isNotEmpty()) {
         $items = $realReviews->map(fn ($r) => [
