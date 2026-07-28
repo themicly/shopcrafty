@@ -3,6 +3,7 @@
 namespace Themicly\Shopcrafty\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 use Themicly\Shopcrafty\Models\User;
 use Themicly\Shopcrafty\Modules\Settings\Services\Settings;
 use Themicly\Shopcrafty\Modules\Themes\Services\ThemeService;
@@ -23,6 +24,7 @@ final class InstallCommand extends Command
         $this->call('vendor:publish', ['--tag' => 'shopcrafty-config']);
         $this->call('storage:link', ['--force' => true]);
         $this->ensureHostViteEntries();
+        $this->buildHostAssets();
 
         [$adminEmail, $adminPassword, $generatedPassword] = $this->adminCredentials();
 
@@ -114,6 +116,38 @@ final class InstallCommand extends Command
             if (! str_contains($js, 'vendor/themicly/shopcrafty/resources/assets/shopcrafty.js')) {
                 file_put_contents($jsPath, rtrim($js)."\n\n$jsImport\n");
             }
+        }
+    }
+
+    private function buildHostAssets(): void
+    {
+        if (! is_file(base_path('package.json'))) {
+            $this->components->warn('No package.json found; skipping Shopcrafty frontend build.');
+
+            return;
+        }
+
+        $this->components->info('Installing frontend dependencies and building Shopcrafty assets...');
+        $this->runNpm(['install']);
+        $this->runNpm(['run', 'build']);
+    }
+
+    /** @param array<int, string> $arguments */
+    private function runNpm(array $arguments): void
+    {
+        $process = new Process(['npm', ...$arguments], base_path());
+        $process->setTimeout(null);
+
+        $exitCode = $process->run(function (string $type, string $buffer): void {
+            $this->output->write($buffer);
+        });
+
+        if ($exitCode !== 0) {
+            throw new \RuntimeException(sprintf(
+                'The command "npm %s" failed with exit code %d.',
+                implode(' ', $arguments),
+                $exitCode,
+            ));
         }
     }
 }

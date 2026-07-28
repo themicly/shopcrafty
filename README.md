@@ -20,9 +20,10 @@ so Shopcrafty is included in the same build and manifest.
 
 The package is MIT licensed and targets PHP 8.3+ and Laravel 13+.
 
-The installer publishes configuration only. Use `--store-name` and `--currency`
-to initialize the store. Installations start empty; sample content is not bundled
-with the core package.
+The installer publishes configuration, adds the package's Vite entries to the host,
+and runs `npm install` followed by `npm run build`. Use `--store-name` and
+`--currency` to initialize the store. Installations start empty; sample content is
+not bundled with the core package.
 
 ### Requirements
 
@@ -30,6 +31,7 @@ with the core package.
 - Laravel 13 and Livewire 4
 - PDO, mbstring, OpenSSL, tokenizer, JSON, ctype, fileinfo, curl, and GD
 - Writable storage/ and bootstrap/cache/ directories
+- Node.js and npm for the frontend asset build
 - A host Vite build that imports the package entries:
 
     /* resources/css/app.css */
