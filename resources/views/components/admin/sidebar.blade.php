@@ -100,6 +100,6 @@
                 <span class="bz-sidebar-label truncate">{{ $item['label'] }}</span>
             </a>
         @endforeach
-        <x-admin.brand-footer />
+        <x-admin.brand-version />
     </div>
 </aside>
