@@ -8,21 +8,43 @@ published as independent packages such as `themicly/shopcrafty-wishlist` and
 
 ## Install
 
+From the root of a Laravel 13 application:
+
 ```bash
 composer require themicly/shopcrafty
 php artisan shopcrafty:install
 ```
 
+The installer runs the database migrations, publishes Shopcrafty configuration,
+creates the storage link, creates the owner account, and synchronizes the bundled
+themes. It does not change the host frontend files or run npm.
+
+Add the package entries to the host Vite files:
+
+```css
+/* resources/css/app.css */
+@import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";
+```
+
+```js
+// resources/js/app.js
+import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";
+```
+
+Then install and build the host frontend:
+
+```bash
+npm install
+npm run build
+```
+
 Themes, views, and admin resources are loaded directly from the package and are
-never published into the host application. Import the package Vite entries into
-the host application's existing `resources/css/app.css` and `resources/js/app.js`
-so Shopcrafty is included in the same build and manifest.
+never published into the host application.
 
 The package is MIT licensed and targets PHP 8.3+ and Laravel 13+.
 
-The installer publishes configuration only. Use `--store-name` and `--currency`
-to initialize the store. Installations start empty; sample content is not bundled
-with the core package.
+Use `--store-name` and `--currency` to initialize the store. Installations start
+empty; sample content is not bundled with the core package.
 
 ### Requirements
 
@@ -30,16 +52,10 @@ with the core package.
 - Laravel 13 and Livewire 4
 - PDO, mbstring, OpenSSL, tokenizer, JSON, ctype, fileinfo, curl, and GD
 - Writable storage/ and bootstrap/cache/ directories
-- A host Vite build that imports the package entries:
-
-    /* resources/css/app.css */
-    @import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";
-
-    // resources/js/app.js
-    import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";
-
-The relative paths may differ when the host uses a different Composer vendor
-layout; resolve them to the installed package resources/assets directory.
+- Node.js and npm for the frontend asset build
+- A host Vite build that imports the package entries. The relative paths may differ
+  when the host uses a different Composer vendor layout; resolve them to the
+  installed package `resources/assets` directory.
 
 ### Host themes and overrides
 

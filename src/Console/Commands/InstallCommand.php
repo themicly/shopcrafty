@@ -22,7 +22,6 @@ final class InstallCommand extends Command
         $this->call('migrate', ['--force' => true]);
         $this->call('vendor:publish', ['--tag' => 'shopcrafty-config']);
         $this->call('storage:link', ['--force' => true]);
-        $this->ensureHostViteEntries();
 
         [$adminEmail, $adminPassword, $generatedPassword] = $this->adminCredentials();
 
@@ -85,35 +84,5 @@ final class InstallCommand extends Command
         }
 
         return [$email, (string) config('shopcrafty.admin_password', 'password'), true];
-    }
-
-    private function ensureHostViteEntries(): void
-    {
-        $cssPath = resource_path('css/app.css');
-        $jsPath = resource_path('js/app.js');
-        $cssImport = '@import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.css";';
-        $jsImport = 'import "../../vendor/themicly/shopcrafty/resources/assets/shopcrafty.js";';
-
-        if (is_file($cssPath)) {
-            $css = file_get_contents($cssPath) ?: '';
-
-            if (! str_contains($css, 'vendor/themicly/shopcrafty/resources/assets/shopcrafty.css')) {
-                $css = preg_replace(
-                    '/(@import[^;]+;)/',
-                    "$1\n$cssImport",
-                    $css,
-                    1,
-                ) ?: $css."\n$cssImport\n";
-                file_put_contents($cssPath, $css);
-            }
-        }
-
-        if (is_file($jsPath)) {
-            $js = file_get_contents($jsPath) ?: '';
-
-            if (! str_contains($js, 'vendor/themicly/shopcrafty/resources/assets/shopcrafty.js')) {
-                file_put_contents($jsPath, rtrim($js)."\n\n$jsImport\n");
-            }
-        }
     }
 }
