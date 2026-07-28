@@ -1,5 +1,9 @@
 @props(['product'])
 
+@php($stSizeChartAvailable = app(\Themicly\Shopcrafty\Core\Module\AddonRegistry::class)->installed('size-chart'))
+
+@if ($stSizeChartAvailable)
+
 {{--
     "Size chart" trigger + modal for the PDP. Theme-neutral on purpose: anonymous
     components are baked into the shared compiled-view cache across themes (THM-07),
@@ -92,4 +96,5 @@
             </div>
         </div>
     </div>
+@endif
 @endif
