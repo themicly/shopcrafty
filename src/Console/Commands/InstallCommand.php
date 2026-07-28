@@ -3,6 +3,7 @@
 namespace Themicly\Shopcrafty\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 use Themicly\Shopcrafty\Models\User;
 use Themicly\Shopcrafty\Modules\Settings\Services\Settings;
 use Themicly\Shopcrafty\Modules\Themes\Services\ThemeService;
