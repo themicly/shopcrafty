@@ -21,6 +21,22 @@ final class PackageTest extends TestCase
         $this->assertSame('/', route('shopcrafty.storefront', absolute: false));
     }
 
+    public function test_demo_import_command_lists_available_packs(): void
+    {
+        $this->artisan('shopcrafty:demo', ['--list' => true])
+            ->expectsOutputToContain('default')
+            ->expectsOutputToContain('boutique')
+            ->expectsOutputToContain('market')
+            ->assertSuccessful();
+    }
+
+    public function test_demo_import_command_rejects_unknown_packs(): void
+    {
+        $this->artisan('shopcrafty:demo', ['pack' => 'unknown'])
+            ->expectsOutputToContain('Unknown demo pack [unknown]')
+            ->assertFailed();
+    }
+
     public function test_addon_registry_supports_storefront_contributions(): void
     {
         $registry = app(AddonRegistry::class);

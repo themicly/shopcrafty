@@ -45,6 +45,16 @@ composer require themicly/shopcrafty-compare themicly/shopcrafty-reviews
 php artisan migrate
 ```
 
+Import a ready-made demo storefront from the command line:
+
+```bash
+php artisan shopcrafty:demo --list
+php artisan shopcrafty:demo default
+```
+
+Available packs are `default`, `boutique`, and `market`. Demo imports are
+idempotent and can be run again to update the selected storefront content.
+
 The compare add-on is session-backed. Reviews add a moderated review form and
 an authenticated admin moderation page at `/admin/catalog/reviews`.
 

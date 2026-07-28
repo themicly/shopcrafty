@@ -84,7 +84,10 @@ final class ShopcraftyServiceProvider extends ServiceProvider
         ], 'shopcrafty-config');
 
         if ($this->app->runningInConsole()) {
-            $this->commands([Console\Commands\InstallCommand::class]);
+            $this->commands([
+                Console\Commands\InstallCommand::class,
+                Console\Commands\ImportDemoCommand::class,
+            ]);
         }
     }
 }
