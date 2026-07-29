@@ -1,6 +1,6 @@
 # ![Logo](https://themicly.com/shopcrafty/shopcrafty-mark.svg) Shopcrafty
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/themicly/shopcrafty.svg?style=flat-square)](https://packagist.org/packages/themicly/shopcrafty)
-[![Tests](https://img.shields.io/github/actions/workflow/status/themicly/shopcrafty/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/themicly/shopcrafty/actions/workflows/tests.yml)
+[![Tests](https://img.shields.io/github/actions/workflow/status/themicly/shopcrafty/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/themicly/shopcrafty/actions/workflows/tests.yml)
 [![PHP Version](https://img.shields.io/packagist/dependency-v/themicly/shopcrafty/php?style=flat-square)](https://packagist.org/packages/themicly/shopcrafty)
 [![Total Downloads](https://img.shields.io/packagist/dt/themicly/shopcrafty.svg?style=flat-square)](https://packagist.org/packages/themicly/shopcrafty)
 [![License](https://img.shields.io/packagist/l/themicly/shopcrafty.svg?style=flat-square)](LICENSE.md)
